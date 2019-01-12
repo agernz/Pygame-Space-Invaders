@@ -91,7 +91,7 @@ def exit(early):
 
 def game_over():
     global level
-    level = 0
+    level = 1
     surf, rect = createText('GAME OVER', DISPLAY_WIDTH // 2,
                             DISPLAY_HEIGHT // 2, ENEMY_BULLET_COLOR, 100)
     display.blit(surf, rect)
@@ -115,7 +115,7 @@ def game_over():
 
 def next_level():
     global level
-    level += .3
+    level += 1
     time.sleep(2)
     player.reset(0)
     player.rect.center = (DISPLAY_WIDTH / 2.,
@@ -153,7 +153,8 @@ def process_bullets():
         if bullet.rect.bottom > DISPLAY_HEIGHT:
             all_sprites.remove(bullet)
             enemy_bullets.remove(bullet)
-        if pygame.sprite.spritecollideany(bullet, player_sprite):
+        if (bullet.rect.bottom >= player.rect.top and pygame.
+           sprite.spritecollideany(bullet, player_sprite)):
             pygame.mixer.Sound.play(snd_player_hit)
             player.take_damage()
             all_sprites.remove(bullet)
